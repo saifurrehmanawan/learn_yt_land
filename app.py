@@ -21,7 +21,7 @@ def main():
 
         try:
             caption = yt.captions.get_by_language_code(language_code)
-        except SomeSpecificError:  # Replace with the specific error you're expecting
+        except:  # Replace with the specific error you're expecting
             try:
                 caption = yt.captions.get_by_language_code(a.language_code)
             except AnotherSpecificError:  # Replace with another specific error you're expecting
