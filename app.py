@@ -27,7 +27,7 @@ def main():
                 caption = yt.captions.get_by_language_code(a.language_code)
                 subtitles = caption.generate_srt_captions()
             except:  # Replace with another specific error you're expecting
-                st.warning("Failed to retrieve caption in both languages.")
+                st.warning("Failed to retrieve caption.")
     
 if __name__ == "__main__":
     main()
