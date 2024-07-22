@@ -72,8 +72,8 @@ def main():
 </script>
 """
 
-        # Display the video in Streamlit
-        st.markdown(video_html, unsafe_allow_html=True)
+            # Display the video in Streamlit
+            st.markdown(video_html, unsafe_allow_html=True)
 
             # Navigation buttons
             col1, col2 = st.columns([1, 1])
