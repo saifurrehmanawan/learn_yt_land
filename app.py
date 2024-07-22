@@ -1,5 +1,6 @@
 from pytubefix import YouTube
 import streamlit as st
+import streamlit.components.v1 as components
 
 # Streamlit app
 def main():
@@ -53,7 +54,23 @@ def main():
 
             # Display video frame with st.video
             video_url = yt.watch_url
-            st.video(video_url, start_time=start_time_seconds, end_time = end_time_seconds, loop = True, autoplay = True)
+            st.video(video_url, start_time=start_time_seconds)
+            
+            # Custom JavaScript to handle end time and looping
+            video_html = f"""
+            <script>
+                const video = document.querySelector('video');
+                video.currentTime = {start_time_seconds};
+                video.play();
+                video.addEventListener('timeupdate', () => {{
+                    if (video.currentTime >= {end_time_seconds}) {{
+                        video.pause();
+                        video.currentTime = {start_time_seconds};
+                    }}
+                }});
+            </script>
+            """
+            components.html(video_html, height=360)
 
             # Navigation buttons
             col1, col2 = st.columns([1, 1])
