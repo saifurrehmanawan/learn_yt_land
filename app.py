@@ -55,7 +55,7 @@ def main():
             # HTML code to embed the video with JavaScript for looping playback
             video_html = f"""
 <div>
-  <iframe id="video" width="560" height="315" src="{video_url}?start={start_time_seconds}&autoplay=1&mute=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <iframe id="video" width="560" height="315" src="{youtube_url}?start={start_time_seconds}&autoplay=1&mute=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 </div>
 <script>
   const video = document.getElementById('video');
