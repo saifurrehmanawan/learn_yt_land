@@ -2,20 +2,21 @@ from pytubefix import YouTube
 import streamlit as st
 import streamlit.components.v1 as components
 
-# Function to generate JavaScript for looping audio
-def generate_audio_js(audio_url, start_time_seconds, end_time_seconds):
+# Function to generate JavaScript for looping video
+def generate_video_js(video_url, start_time_seconds, end_time_seconds):
     js_code = f"""
-    <audio id="audio" src="{audio_url}" autoplay>
-        Your browser does not support the audio element.
-    </audio>
+    <video id="video" width="600" autoplay loop muted>
+        <source src="{video_url}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
     <script>
-        var audio = document.getElementById('audio');
-        audio.currentTime = {start_time_seconds};
-        audio.play();
-        audio.addEventListener('timeupdate', function() {{
-            if (audio.currentTime >= {end_time_seconds}) {{
-                audio.currentTime = {start_time_seconds};
-                audio.play();
+        var video = document.getElementById('video');
+        video.currentTime = {start_time_seconds};
+        video.play();
+        video.addEventListener('timeupdate', function() {{
+            if (video.currentTime >= {end_time_seconds}) {{
+                video.currentTime = {start_time_seconds};
+                video.play();
             }}
         }});
     </script>
@@ -25,7 +26,7 @@ def generate_audio_js(audio_url, start_time_seconds, end_time_seconds):
 # Streamlit app
 def main():
     # Title of the app
-    st.title("YouTube Audio Subtitle Navigator")
+    st.title("YouTube Video Subtitle Navigator")
 
     # Text input for YouTube URL
     youtube_url = st.text_input("Enter YouTube Video URL:")
@@ -71,10 +72,10 @@ def main():
                 st.warning("Failed to parse subtitle timings.")
                 return
 
-            # Generate and display audio with looping
-            audio_url = yt.streams.filter(only_audio=True).first().url
-            audio_js = generate_audio_js(audio_url, start_time_seconds, end_time_seconds)
-            components.html(audio_js, height=50)
+            # Generate and display video with looping
+            video_url = yt.streams.filter(file_extension='mp4').first().url
+            video_js = generate_video_js(video_url, start_time_seconds, end_time_seconds)
+            components.html(video_js, height=400)
 
             # Navigation buttons
             col1, col2 = st.columns([1, 1])
