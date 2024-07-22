@@ -18,6 +18,14 @@ def main():
             st.subheader(yt.title)
         except:
             st.warning("Please enter a valid YouTube link.")
+
+        try:
+            caption = yt.captions.get_by_language_code(language_code)
+        except SomeSpecificError:  # Replace with the specific error you're expecting
+            try:
+                caption = yt.captions.get_by_language_code(a.language_code)
+            except AnotherSpecificError:  # Replace with another specific error you're expecting
+                st.warning("Failed to retrieve caption in both languages.")
     
 if __name__ == "__main__":
     main()
