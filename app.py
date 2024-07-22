@@ -1,11 +1,31 @@
 from pytubefix import YouTube
 import streamlit as st
+import streamlit.components.v1 as components
+
+# Function to generate JavaScript for looping audio
+def generate_audio_js(audio_url, start_time_seconds, end_time_seconds):
+    js_code = f"""
+    <audio id="audio" src="{audio_url}" autoplay>
+        Your browser does not support the audio element.
+    </audio>
+    <script>
+        var audio = document.getElementById('audio');
+        audio.currentTime = {start_time_seconds};
+        audio.play();
+        audio.addEventListener('timeupdate', function() {{
+            if (audio.currentTime >= {end_time_seconds}) {{
+                audio.currentTime = {start_time_seconds};
+                audio.play();
+            }}
+        }});
+    </script>
+    """
+    return js_code
 
 # Streamlit app
 def main():
-    
     # Title of the app
-    st.title("YouTube Video Subtitle Navigator")
+    st.title("YouTube Audio Subtitle Navigator")
 
     # Text input for YouTube URL
     youtube_url = st.text_input("Enter YouTube Video URL:")
@@ -51,34 +71,10 @@ def main():
                 st.warning("Failed to parse subtitle timings.")
                 return
 
-            # Display video frame with st.video
-            # HTML code to embed the video with JavaScript for looping playback
-            # HTML code to embed the video with JavaScript for looping playback
-            video_html = f"""
-<div>
-  <iframe id="video" width="560" height="315" src="{video_url}?start={start_time_seconds}&autoplay=1&mute=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-</div>
-<script>
-  const video = document.getElementById('video');
-
-  // Function to handle video time updates
-  function checkVideoTime() {{
-    const currentTime = video.contentWindow.postMessage('{"event":"command","func":"getCurrentTime","args":""}', '*');
-    if (currentTime >= {end_time_seconds}) {{
-      video.contentWindow.postMessage('{"event":"command","func":"seekTo","args":[{start_time_seconds}, true]}', '*');
-    }}
-  }}
-
-  video.addEventListener('load', function() {{
-    video.contentWindow.postMessage('{"event":"command","func":"seekTo","args":[{start_time_seconds}, true]}', '*');
-  }});
-
-  video.addEventListener('timeupdate', checkVideoTime);
-</script>
-"""
-
-            # Display the video in Streamlit
-            st.markdown(video_html, unsafe_allow_html=True)
+            # Generate and display audio with looping
+            audio_url = yt.streams.filter(only_audio=True).first().url
+            audio_js = generate_audio_js(audio_url, start_time_seconds, end_time_seconds)
+            components.html(audio_js, height=50)
 
             # Navigation buttons
             col1, col2 = st.columns([1, 1])
