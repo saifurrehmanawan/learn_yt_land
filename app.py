@@ -13,8 +13,11 @@ def main():
 
     # Check if a URL has been provided
     if youtube_url and language_code:
-        yt = YouTube(youtube_url)
-        st.subheader(yt.title)
+        try:
+            yt = YouTube(youtube_url)
+            st.subheader(yt.title)
+        except:
+            st.warning("Please enter a valid YouTube link.")
     
 if __name__ == "__main__":
     main()
