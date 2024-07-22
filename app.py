@@ -53,7 +53,7 @@ def main():
                 return
 
             # Display video frame with st.video
-            video_url = yt.watch_url
+            video_url = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().url
             st.video(video_url, start_time=start_time_seconds)
             
             # Custom JavaScript to handle end time and looping
@@ -62,9 +62,9 @@ def main():
                 const video = document.querySelector('video');
                 video.currentTime = {start_time_seconds};
                 video.play();
+                video.loop = true;
                 video.addEventListener('timeupdate', () => {{
                     if (video.currentTime >= {end_time_seconds}) {{
-                        video.pause();
                         video.currentTime = {start_time_seconds};
                     }}
                 }});
