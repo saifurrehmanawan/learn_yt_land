@@ -5,7 +5,7 @@ import streamlit.components.v1 as components
 # Function to generate JavaScript for looping video
 def generate_video_js(video_url, start_time_seconds, end_time_seconds):
     js_code = f"""
-    <video id="video" width="600" autoplay loop muted>
+    <video id="video" width="600" autoplay loop controls>
         <source src="{video_url}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
