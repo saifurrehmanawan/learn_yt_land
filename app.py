@@ -1,4 +1,4 @@
-from pytube import YouTube
+from pytubefix import YouTube
 import streamlit as st
 
 # Streamlit app
