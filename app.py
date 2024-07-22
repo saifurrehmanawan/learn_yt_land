@@ -54,7 +54,7 @@ def main():
             # Display video frame with st.video
             # HTML code to embed the video with JavaScript for looping playback
             # HTML code to embed the video with JavaScript for looping playback
-video_html = f"""
+            video_html = f"""
 <div>
   <iframe id="video" width="560" height="315" src="{video_url}?start={start_time_seconds}&autoplay=1&mute=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 </div>
