@@ -5,7 +5,7 @@ import streamlit.components.v1 as components
 # Function to generate JavaScript for looping video
 def generate_video_js(video_url, start_time_seconds, end_time_seconds):
     js_code = f"""
-    <video id="video" width="600" autoplay loop controls>
+    <video id="video" width="600" autoplay controls>
         <source src="{video_url}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
@@ -71,6 +71,10 @@ def main():
             except IndexError:
                 st.warning("Failed to parse subtitle timings.")
                 return
+
+            # Display the subtitle text
+            subtitle_text = current_segment.split('\n')[2:]
+            st.text('\n'.join(subtitle_text))
 
             # Generate and display video with looping
             video_url = yt.streams.filter(file_extension='mp4').first().url
