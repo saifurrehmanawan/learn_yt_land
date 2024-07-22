@@ -29,3 +29,5 @@ def main():
         yt = YouTube(youtube_url)
         st.subheader(yt.title)
     
+if __name__ == "__main__":
+    main()
