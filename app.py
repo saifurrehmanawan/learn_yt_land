@@ -12,22 +12,32 @@ def main():
     language_code = st.text_input("Enter the language code (e.g., 'en' for English, 'es' for Spanish):")
 
     # Check if a URL has been provided
-    if youtube_url and language_code:
+        # Check if a URL has been provided
+    if youtube_url:
         try:
             yt = YouTube(youtube_url)
             st.subheader(yt.title)
         except Exception as e:
-            st.warning("Please enter a valid YouTube link.")
+            st.warning(f"Failed to fetch video details: {e}")
+            return
 
-        try:
-            caption = yt.captions.get_by_language_code(language_code)
-            subtitles = caption.generate_srt_captions()
-        except Exception as e1:  # Replace with the specific error you're expecting
+        if language_code:
             try:
-                caption = yt.captions.get_by_language_code(a.language_code)
+                caption = yt.captions.get_by_language_code(language_code)
                 subtitles = caption.generate_srt_captions()
-            except Exception as e2:  # Replace with another specific error you're expecting
-                st.warning("Failed to retrieve caption.")
+                st.text_area("Subtitles", subtitles)
+            except Exception as e1:
+                if fallback_language_code:
+                    try:
+                        caption = yt.captions.get_by_language_code(fallback_language_code)
+                        subtitles = caption.generate_srt_captions()
+                        st.text_area("Subtitles", subtitles)
+                    except Exception as e2:
+                        st.warning(f"Failed to retrieve captions in both languages: {e2}")
+                else:
+                    st.warning(f"Failed to retrieve captions: {e1}")
+        else:
+            st.warning("Please enter a language code.")
     
 if __name__ == "__main__":
     main()
