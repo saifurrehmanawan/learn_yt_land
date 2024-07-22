@@ -53,7 +53,7 @@ def main():
 
             # Display video frame with st.video
             video_url = yt.watch_url
-            st.video(video_url, start_time=start_time_seconds)
+            st.video(video_url, start_time=start_time_seconds, end_time = end_time_seconds, loop = True, autoplay = True)
 
             # Navigation buttons
             col1, col2 = st.columns([1, 1])
