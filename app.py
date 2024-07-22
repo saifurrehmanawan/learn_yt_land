@@ -1,6 +1,7 @@
 from pytubefix import YouTube
 import streamlit as st
 import streamlit.components.v1 as components
+import re
 
 # Function to generate JavaScript for looping video
 def generate_video_js(video_url, start_time_seconds, end_time_seconds):
@@ -22,6 +23,12 @@ def generate_video_js(video_url, start_time_seconds, end_time_seconds):
     </script>
     """
     return js_code
+
+# Function to split subtitles into sentences
+def split_into_sentences(subtitle_text):
+    # Basic sentence splitting based on punctuation
+    sentences = re.split(r'(?<=[.!?]) +', subtitle_text)
+    return sentences
 
 # Streamlit app
 def main():
@@ -61,7 +68,6 @@ def main():
 
             # Display current subtitle segment
             current_segment = subtitle_segments[st.session_state.current_segment]
-            st.write(current_segment)
             
             # Extract start and end times for the current subtitle
             try:
@@ -72,9 +78,11 @@ def main():
                 st.warning("Failed to parse subtitle timings.")
                 return
 
-            # Display the subtitle text
-            subtitle_text = current_segment.split('\n')[2:]
-            st.text('\n'.join(subtitle_text))
+            # Display the subtitle text split into sentences
+            subtitle_text = ' '.join(current_segment.split('\n')[2:])
+            sentences = split_into_sentences(subtitle_text)
+            for sentence in sentences:
+                st.text(sentence)
 
             # Generate and display video with looping
             video_url = yt.streams.filter(file_extension='mp4').first().url
