@@ -32,7 +32,7 @@ def main():
                         subtitles = caption.generate_srt_captions()
                         st.text_area("Subtitles", subtitles)
                     except Exception as e2:
-                        st.warning(f"Failed to retrieve captions in both languages: {e2}")
+                        st.warning(f"Failed to retrieve captions: {e2}")
         else:
             st.warning("Please enter a language code.")
     
