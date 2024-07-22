@@ -53,22 +53,27 @@ def main():
 
             # Display video frame with st.video
             # HTML code to embed the video with JavaScript for looping playback
-            video_html = f"""
+            # HTML code to embed the video with JavaScript for looping playback
+video_html = f"""
 <div>
-  <iframe id="video" width="560" height="315" src="{youtube_url}?start={start_time_seconds}&autoplay=1&mute=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <iframe id="video" width="560" height="315" src="{video_url}?start={start_time_seconds}&autoplay=1&mute=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 </div>
 <script>
   const video = document.getElementById('video');
-  video.addEventListener('load', function() {{
-    video.contentWindow.postMessage('{"event":"command","func":"seekTo","args":[{start_time_seconds}, true]}', '*');
-  }});
 
-  video.addEventListener('timeupdate', function() {{
+  // Function to handle video time updates
+  function checkVideoTime() {{
     const currentTime = video.contentWindow.postMessage('{"event":"command","func":"getCurrentTime","args":""}', '*');
     if (currentTime >= {end_time_seconds}) {{
       video.contentWindow.postMessage('{"event":"command","func":"seekTo","args":[{start_time_seconds}, true]}', '*');
     }}
+  }}
+
+  video.addEventListener('load', function() {{
+    video.contentWindow.postMessage('{"event":"command","func":"seekTo","args":[{start_time_seconds}, true]}', '*');
   }});
+
+  video.addEventListener('timeupdate', checkVideoTime);
 </script>
 """
 
