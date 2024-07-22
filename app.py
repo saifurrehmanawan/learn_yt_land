@@ -10,4 +10,4 @@ youtube_url = st.text_input("Enter YouTube Video URL:")
 # Check if a URL has been provided
 if youtube_url:
     yt = YouTube(youtube_url)
-    st.write(f"Video Title: {yt.title}")
+    st.subheader(yt.title)
