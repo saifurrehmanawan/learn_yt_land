@@ -74,6 +74,9 @@ def main():
 
             # Generate and display video with looping
             video_url = yt.streams.filter(file_extension='mp4').first().url
+            if not video_url:
+                st.warning("Failed to retrieve video URL.")
+                return
             video_js = generate_video_js(video_url, start_time_seconds, end_time_seconds)
             components.html(video_js, height=400)
 
