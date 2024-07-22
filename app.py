@@ -25,12 +25,12 @@ def main():
             try:
                 caption = yt.captions.get_by_language_code(language_code)
                 subtitles = caption.generate_srt_captions()
-                st.text_area("Subtitles", subtitles)
+
             except Exception as e1:
                     try:
-                        caption = yt.captions.get_by_language_code(fallback_language_code)
+                        caption = yt.captions.get_by_language_code(f"a.{language_code}")
                         subtitles = caption.generate_srt_captions()
-                        st.text_area("Subtitles", subtitles)
+
                     except Exception as e2:
                         st.warning(f"Failed to retrieve captions: {e2}")
         else:
